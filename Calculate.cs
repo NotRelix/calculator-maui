@@ -8,9 +8,11 @@ namespace Calculator
 {
     public static class Calculate
     {
-        public static double DoCalculation(double val1, double val2, string operandMath)
+        public static string DoCalculation(double val1, double val2, string operandMath)
         {
+
             double result = 0;
+            string retval;
 
             switch (operandMath)
             {
@@ -20,7 +22,7 @@ namespace Calculator
                 case "-":
                     result = val1 - val2;
                     break;
-                case "*":
+                case "x":
                     result = val1 * val2;
                     break;
                 case "+":
@@ -29,7 +31,15 @@ namespace Calculator
                 default:
                     break;
             }
-            return result;
+            if (operandMath == "/" && val2 == 0)
+            {
+                retval = "Math Error";
+            }
+            else
+            {
+                retval = result.ToString();
+            }
+            return retval;
         }
     }
 }

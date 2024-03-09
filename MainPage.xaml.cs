@@ -20,6 +20,22 @@
             this.result.Text = "0";
         }
 
+        void SetNum(string text)
+        {
+            double number;
+            if (double.TryParse(text, out number))
+            {
+                if (currentState == 1)
+                {
+                    firstNum = number;
+                }
+                else if (currentState == 2)
+                {
+                    secondNum = number;
+                }
+            }
+        }
+
         void OnDelete(object sender, EventArgs e)
         {
             if (this.result.Text.Length > 0)
@@ -30,6 +46,8 @@
             {
                 this.result.Text = "0";
             }
+
+            SetNum(this.result.Text);
         }
 
         void OnNumberSelection(object sender, EventArgs e)
@@ -42,25 +60,13 @@
                 this.result.Text = string.Empty;
                 if (currentState < 0)
                 {
-                    currentState *= 1;
+                    currentState *= -1;
                 }
             }
 
             this.result.Text += btnPressed;
 
-            double number;
-            if (double.TryParse(this.result.Text, out number))
-            {
-                /*this.result.Text = number.ToString("NO");*/
-                if (currentState == 1)
-                {
-                    firstNum = number;
-                } 
-                else
-                {
-                    secondNum = number;
-                }
-            }
+            SetNum(this.result.Text);
         }
 
         void OnOperatorSelection(object sender, EventArgs e)
@@ -84,9 +90,9 @@
             if (currentState == 2)
             {
                 var result = Calculate.DoCalculation(firstNum, secondNum, operandMath);
-                this.result.Text = result.ToString();
-                firstNum = result;
-                currentState = -1;
+                this.result.Text = result;
+                currentState = 1;
+                SetNum(result);
             }
         }
     }
